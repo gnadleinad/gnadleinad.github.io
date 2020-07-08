@@ -1,3 +1,6 @@
+// var express = require("express");
+// var app = express();
+
 var card = document.getElementsByClassName("thecard")[0];
 var front = document.getElementsByClassName("front")[0];
 var back = document.getElementsByClassName("back")[0];
@@ -19,14 +22,17 @@ back.addEventListener("click", function(){
 });
 
 runButton.addEventListener("click", function() {
-    currentWordIndex = 0;
     var wordList = listOfTerms.value.split(" ");
-    putWordsInBox(wordList);
-    updateArrayOfWords(wordList);
-    updateArrayOfDefinitions(wordList);
-    changeTerm();
-
+    if(wordList[0] != "") {
+        currentWordIndex = 0;
+        putWordsInBox(wordList);
+        updateArrayOfWords(wordList);
+        updateArrayOfDefinitions(wordList);
+        changeTerm();
+        console.log(wordList.length)
+    }
 });
+
 PrevButton.addEventListener("click", function() {
     updateFlashcard("ArrowLeft");
 });
@@ -55,8 +61,9 @@ function resetCardAnimation() {
 }
 
 function changeTerm() {
-    document.getElementById("front").innerHTML = arrayOfWords[currentWordIndex]; // Changes the front
-    document.getElementById("back").innerHTML = "definition will go here soon"; // Changes the front
+    $( "#front" ).html(arrayOfWords[currentWordIndex]);
+    // document.getElementById("front").innerHTML = arrayOfWords[currentWordIndex]; // Changes the front
+    $( "#back" ).html(arrayOfWords[currentWordIndex]);; // Changes the front
     
     //Change the back of the card
     //make word bold
@@ -102,6 +109,11 @@ function putWordsInBox(wordList) {
         li.innerHTML += item;
     });
 };
+
+//turn off spacebar scrolling!
+// window.onkeydown = function(e) { 
+//     return !(e.keyCode == 32);
+//   };
 
 
 
