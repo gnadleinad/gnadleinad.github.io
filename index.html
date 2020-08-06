@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="/static/flashcard.css" />
+        <!-- Include Bootstrap 4 -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <!-- Turn off keep-focus for buttons after they are pressed -->
+        <script type="text/javascript"> document.addEventListener('click', function(e) { if(document.activeElement.toString() == '[object HTMLButtonElement]'){ document.activeElement.blur(); } }); </script>
+        <!-- Turn off spacebar scrolling -->
+<script type="text/javascript"> window.onkeydown = function(e) { window.addEventListener('keydown', function(e) {if(e.keyCode == 32 && e.target == document.body) {e.preventDefault();}} )};</script>
+
+        <!-- Include jQuery in the Javascript file -->
+        <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+        
+        <title>Flashcard Maker</title>
+    </head>
+    <body>
+        <!-- <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="#">Daniel Dang</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarText">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="file:///Users/danieldang/code/myWebsite/flashcardApp/flipcard.html">Flashcards <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="file:///Users/danieldang/code/myWebsite/aboutMe.html">About Me</a>
+                    </li>
+                </ul>
+                <a href="https://www.whitman.edu/academics/majors-and-minors/french-and-francophoone-studies">
+                    <span class="navbar-text">Made for Whitman's French Students</span>
+                    <img src="/static/Whitman_College_Logo.jpg" width=50px id="whitmanLogo" alt="GO BLUES">
+                </a>
+            </div>
+        </nav> -->
+
+        <h1>Daniel's French Flashcard Maker</h1>
+        <h6>Practice the words you just looked up on WordReference!</h6>
+        <div class="maincontainer">
+            <div class="thecard">
+                <div class="front" id="front">être</div>
+                <div class="back" id="back">to be</div>
+            </div>
+            <div class="row" id="PrevNext">
+                <div class="col-2"></div>
+                <div class="col-2">
+                    <button type="button" class="btn btn-outline-danger" id="PrevButton">Previous</button>
+                </div>
+                <div class="col-4"></div>
+                <div class="col-2">
+                    <button type="button" class="btn btn-outline-success" id="NextButton">Next</button>
+                </div>
+                <div class="col-2"></div>
+                <div id="inputWords">
+                    <!-- <div class="col-2"></div> -->
+                    <!-- <div class="col-12"> -->
+                    <label for="input">Input the words here</label>
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" id="listOfTermsBox" placeholder="Copy and paste!" aria-describedby="basic-addon2">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-primary" type="button" id="runButton">Run</button>
+                        </div>
+                    </div>
+                    <small id="directions" class="form-text text-muted">
+                        Copy and paste your recent searches from <a href = "https://www.wordreference.com/fren/bonjour">Word Reference</a> You can find them in the bottom left, under <em>"Recherches récentes."</em>
+                         If you don't use WordReference, just enter French words separated by spaces. Then use the arrow keys and the spacebar or the buttons to flip through your cards!
+                         <br><br>Try it out! Paste "bonjour déplacer ciel" into the box! <br>
+                        <em><br>Note: This application only gives you translations from French to English.
+                        </em>
+
+                    </small>
+                    <label for="empty" id="wordboxlabel">Your words are here</label>
+                    <div class="overflow-auto" id="empty"></div>
+
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript" src="/static/libraries/skpublishapi.js"></script>
+        <script type="text/javascript" src="/static/flashcard.js"></script>
+    </body>
+</html>
