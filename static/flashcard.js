@@ -1,17 +1,47 @@
-// var express = require("express");
-// var app = express();
 
+var dictCode = 'french-english'
 var card = document.getElementsByClassName("thecard")[0];
 var front = document.getElementsByClassName("front")[0];
 var back = document.getElementsByClassName("back")[0];
 var runButton = document.getElementById("runButton");
 var PrevButton = document.getElementById("PrevButton");
 var NextButton = document.getElementById("NextButton");
-var listOfTerms = document.getElementById("listOfTerms");
+var listOfTermsBox = document.getElementById("listOfTermsBox");
 var arrayOfWords = [];
 var arrayOfDefinitions = [];
 var currentWordIndex = 0;
-var face = 0;
+var cardDefinitionShowing = false;
+
+  
+const getDefinition = async (word) => {
+    const response = await fetch(`https://sl4vamtcsj.execute-api.us-east-2.amazonaws.com/prod/search?word=${word}`);
+    const json = await response.json();
+    arrayOfDefinitions.push(json.definition);
+}
+
+
+async function updateArrayOfDefinitions(wordList){
+    arrayOfDefinitions = [];
+    //look up definition of words in wordList
+    for(i = 0; i<wordList.length; i++) {
+        // var definition = await getDefinition(wordList[i]).definition
+        await getDefinition(wordList[i])
+        // arrayOfDefinitions.push(definition);
+    }
+}
+
+async function runButtonFunction() {
+    $( "#front" ).html("searching...");
+    $( "#back" ).html("searching...");
+    var wordList = listOfTermsBox.value.split(" ");
+    if(wordList[0] != "") {
+        currentWordIndex = 0;
+        updateArrayOfWords(wordList);
+        await updateArrayOfDefinitions(wordList);
+        putWordsInBox(wordList);
+        // changeTerm();
+    }
+}
 
 
 front.addEventListener("click", function(){
@@ -21,16 +51,8 @@ back.addEventListener("click", function(){
     flipCardAnimation();
 });
 
-runButton.addEventListener("click", function() {
-    var wordList = listOfTerms.value.split(" ");
-    if(wordList[0] != "") {
-        currentWordIndex = 0;
-        putWordsInBox(wordList);
-        updateArrayOfWords(wordList);
-        updateArrayOfDefinitions(wordList);
-        changeTerm();
-        console.log(wordList.length)
-    }
+runButton.addEventListener("click", () => {
+    runButtonFunction().then((data) => changeTerm())
 });
 
 PrevButton.addEventListener("click", function() {
@@ -41,29 +63,34 @@ NextButton.addEventListener("click", function() {
 });
 
 document.addEventListener('keydown', function(event) {
-    const key = event.key; // "ArrowRight", "ArrowLeft", "ArrowUp", or "ArrowDown"
-    updateFlashcard(key);
+    if(event.target !== document.getElementById("listOfTermsBox")){
+        const key = event.key; // "ArrowRight", "ArrowLeft", "ArrowUp", or "ArrowDown"
+        updateFlashcard(key);
+    }
+
 });
 
+
 function flipCardAnimation() {
-    if(face == 0) {
+    if(cardDefinitionShowing == false) {
         card.style.transform = "rotateY(180deg)";
-        face = 1;
+        cardDefinitionShowing = true;
     }
-    else if(face == 1) {
+    else if(cardDefinitionShowing == 1) {
         card.style.transform = "rotateY(0deg)";
-        face = 0;
+        cardDefinitionShowing = false;
     }
 }
+
 function resetCardAnimation() {
-    face = 0;
+    cardDefinitionShowing = false;
     card.style.transform = "rotateY(0deg)";
 }
 
 function changeTerm() {
     $( "#front" ).html(arrayOfWords[currentWordIndex]);
     // document.getElementById("front").innerHTML = arrayOfWords[currentWordIndex]; // Changes the front
-    $( "#back" ).html(arrayOfWords[currentWordIndex]);; // Changes the front
+    $( "#back" ).html(arrayOfDefinitions[currentWordIndex]);; // Changes the front
     
     //Change the back of the card
     //make word bold
@@ -85,18 +112,15 @@ function updateFlashcard(key) {
     }
     else if (key == " ") {
             flipCardAnimation();
-    }
+    } 
 
 }
+
 function updateArrayOfWords(wordList) {
-    arrayOfWords = [];
+    arrayOfWords = []
     for(i = 0; i<wordList.length; i++) {
         arrayOfWords.push(wordList[i]);
     }
-}
-function updateArrayOfDefinitions(wordList){
-    //look up definition of words in wordList
-    arrayOfDefinitions = [];
 }
 
 function putWordsInBox(wordList) {
@@ -114,6 +138,5 @@ function putWordsInBox(wordList) {
 // window.onkeydown = function(e) { 
 //     return !(e.keyCode == 32);
 //   };
-
 
 
